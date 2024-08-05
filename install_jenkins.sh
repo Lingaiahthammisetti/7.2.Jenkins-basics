@@ -30,7 +30,11 @@ VALIDATE $? "Updating yum packages"
 yum install fontconfig java-17-openjdk -y &>>$LOGFILE
 VALIDATE $? "Installing java-17"
 
-sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
+# sudo wget -O /etc/yum.repos.d/jenkins.repo \
+#     https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
+# VALIDATE $? "downloading jenkins repository"
+
+curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
 VALIDATE $? "downloading jenkins repository"
 
 yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo &>>$LOGFILE
