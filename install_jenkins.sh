@@ -34,7 +34,7 @@ VALIDATE $? "Installing java-17"
 #     https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
 # VALIDATE $? "downloading jenkins repository"
 
-curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
 VALIDATE $? "downloading jenkins repository"
 
 yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo &>>$LOGFILE
