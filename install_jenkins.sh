@@ -38,7 +38,7 @@ curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenki
 VALIDATE $? "downloading jenkins repository"
 
 yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo &>>$LOGFILE
-VALIDATE $? "adding Docker repo"
+VALIDATE $? "adding Jenkins repo"
 
 rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key &>>$LOGFILE
 VALIDATE $? "Importing jenkins key"
