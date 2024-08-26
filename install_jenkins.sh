@@ -1,12 +1,4 @@
-# !/bin/bash
-# curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-# yum install fontconfig java-17-openjdk jenkins -y
-# systemctl daemon-reload
-# systemctl enable jenkins
-# systemctl start jenkins
-
-!/bin/bash
+#!/bin/bash
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
@@ -66,3 +58,11 @@ VALIDATE $? "Starting jenkins"
 
 systemctl status jenkins &>>$LOGFILE
 VALIDATE $? "Checking Jenkins installation Status"
+
+# #!/bin/bash
+# curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+# yum install fontconfig java-17-openjdk jenkins -y
+# systemctl daemon-reload
+# systemctl enable jenkins
+# systemctl start jenkins
