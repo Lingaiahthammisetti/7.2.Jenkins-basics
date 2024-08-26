@@ -35,7 +35,7 @@ VALIDATE $? "Updating yum packages"
 curl -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
 VALIDATE $? "Add the LTS Jenkins repository"
 
-rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key -y &>>$LOGFILE
+rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key &>>$LOGFILE
 VALIDATE $? "Import the repo key"
 
 yum upgrade -y &>>$LOGFILE
