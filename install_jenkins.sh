@@ -1,50 +1,51 @@
 #!/bin/bash
-
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
 
-VALIDATE(){
-    if [ $1 -ne 0 ]
-    then 
-       echo "$2...FAILURE"
-       exit 1
-    else
-       echo "$2.. SUCCESS"
-    fi    
-}
-#check whether root user or not.
-if [ $USERID -ne 0 ]
-then 
-   echo "please run this script with root access."
-   exit 1 #manaully exit if error comes.
-else
-   echo "you are super user."
-fi
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
+echo  -e "$G Script started executing at:$TIMESTAMP $N"
 
+VALIDATE(){
+if [ $1 -ne 0 ]
+then 
+   echo -e "$R $2... FAITURE $N"
+   exit 1
+else
+   echo -e "$G $2..  SUCCESS $N"
+fi
+}
+#checking root user or not.
+if [ $USERID -ne 0 ]
+then
+   echo -e "$R Please run this script with root access $N"
+   exit 1
+else
+   echo -e "$G You are super user. $SCRIPT_NAME"
+
+fi
 
 yum update -y &>>$LOGFILE
 VALIDATE $? "Updating yum packages"
 
-yum install fontconfig java-17-openjdk -y &>>$LOGFILE
-VALIDATE $? "Installing java-17"
+wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
+VALIDATE $? "Add the LTS Jenkins repository"
 
-# sudo wget -O /etc/yum.repos.d/jenkins.repo \
-#     https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
-# VALIDATE $? "downloading jenkins repository"
+rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key -y &>>$LOGFILE
+VALIDATE $? "Import the repo key"
 
-curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
-VALIDATE $? "downloading jenkins repository"
+yum upgrade -y &>>$LOGFILE
+VALIDATE $? "Upgrading yum packages"
 
-yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo &>>$LOGFILE
-VALIDATE $? "adding Jenkins repo"
-
-rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key &>>$LOGFILE
-VALIDATE $? "Importing jenkins key"
+sudo yum install fontconfig java-17-openjdk -y &>>$LOGFILE
+VALIDATE $? "Add required dependencies - Installing Java 17 openjdk"
 
 yum install jenkins -y &>>$LOGFILE
-VALIDATE $? "Installing Jenkins"
+VALIDATE $? "Add required dependencies - Installing Jenkins"
 
 systemctl daemon-reload &>>$LOGFILE
 VALIDATE $? "Jenkins - Daemon reload"
@@ -54,6 +55,17 @@ VALIDATE $? "Enabling jenkins"
 
 systemctl start jenkins &>>$LOGFILE
 VALIDATE $? "Starting jenkins"
+
+systemctl status jenkins &>>$LOGFILE
+VALIDATE $? "Checking Jenkins installation Status"
+
+
+
+# curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
+# VALIDATE $? "downloading jenkins repository"
+
+
+
 
 
 
