@@ -32,7 +32,7 @@ fi
 yum update -y &>>$LOGFILE
 VALIDATE $? "Updating yum packages"
 
-wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
+curl -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
 VALIDATE $? "Add the LTS Jenkins repository"
 
 rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key -y &>>$LOGFILE
