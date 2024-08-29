@@ -36,6 +36,7 @@ pipeline {
         stage('Deploy') { 
             steps {
               sh 'echo This is Deploy'
+              error 'This is error msg'
             }
         }
         // stage('Print Params') { 
