@@ -47,5 +47,17 @@ pipeline {
         //         echo "Password: ${params.PASSWORD}"
         //     }
         //  }
+     post { 
+        always { 
+            echo 'I will always say Hello Always!'
+        }
+        success { 
+            echo 'I will always say Hello Success!'
+        }
+        failure{ 
+            echo 'I will always say Hello failure!'
+        }
+        
+    }
     }
 }
